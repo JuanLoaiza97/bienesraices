@@ -1,0 +1,27 @@
+
+
+.footer{
+    
+    margin-bottom: 0;
+    width: 100%;
+    padding: $separacion/2;
+    background-color: $grisOscuro;
+
+    .contenedor-footer{
+        padding-top: $separacion/2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    
+    }
+
+    .navegacion{
+        visibility: visible;
+        opacity: 1;
+    }
+    
+    .copyright{
+        color: $blanco;
+        text-align: center;
+    }
+}
