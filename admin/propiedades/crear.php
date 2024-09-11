@@ -45,7 +45,7 @@
         // asignar files a variable
         
         $imagen = $_FILES['imagen'];
-        var_dump($imagen['name']);
+        var_dump($imagen);
 
 
 
@@ -84,7 +84,7 @@
 
         //validar por tamaño
 
-        $medida = 1000 * 100;
+        $medida = 1000 * 1000;
 
         if ($imagen['size']>$medida) {
             $errores[] = "la imagen es muy pesada";
@@ -96,15 +96,29 @@
 
         //revisar si $errores esta vacio
         if(empty($errores)) {
+
+            // Subida de archivos
+
+            //crear carpeta
+            $carpetaImagenes = '../../imagenes/';
+            if(!is_dir($carpetaImagenes)) {
+                mkdir($carpetaImagenes);
+            };
+            //generar name unico
+            $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+            //subir img
+
+            move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen );
+        
+
             // insert bd
-    
-            $query = "INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, creado, vendedores_id) VALUES ( '$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedores_id')";
+            $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedores_id) VALUES ( '$titulo', '$precio', '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedores_id')";
     
             $resultado = mysqli_query($db, $query);
     
             if ($resultado){
                 //redireccionar uruario
-                header("location: /admin");
+                header("location: /admin/?resultado=1");
             }
         }
 
